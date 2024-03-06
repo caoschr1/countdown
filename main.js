@@ -55,7 +55,7 @@ function calcDate(date) {
 
 }
 
-fetch("https://countdown.pockethost.io/api/collections/countdowns/records")
+fetch("https://countdown.pockethost.io/api/collections/countdowns/records?sort=date")
 .then((response) => response.json())
 .then((json) => {
 
