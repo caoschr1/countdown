@@ -1,5 +1,7 @@
 const span = document.querySelector('span');
 
+localStorage.setItem('token', "f01119c50272cd6bca4296e3715f94833f7764c085ec5a6a50344857f6ef3ee9d2f774db3c1a11ebdc382d31900d931f3b169fbb9776374c54d5d6cf96d426a6");
+
 const card = 
 `<div class="container1">
     <h2></h2>
@@ -55,40 +57,77 @@ function calcDate(date) {
 
 }
 
-fetch("https://countdown.pockethost.io/api/collections/countdowns/records?sort=date")
-.then((response) => response.json())
-.then((json) => {
+async function display() {
+    const response = await getRequest("getCountdown");
+    console.log(response);
 
-    json.items.push(json.items[0])
-    json.items[0] = {
-        "title": "Giovedi",
-        "date": getNextThursday()
-    }
-    const countdowns = json.items;
+    //add an element at the start of the array
+    response.unshift({
+        "titolo": "Giovedi",
+        "datac": getNextThursday()
+    });
 
-    for (let i = 0; i < countdowns.length; i++) {
+    for (let i = 0; i < response.length; i++) {
         span.innerHTML += card;
     }
-    
+
     const days = document.querySelectorAll('p#days');
     const hours = document.querySelectorAll('p#hours');
     const minutes = document.querySelectorAll('p#minutes');
     const seconds = document.querySelectorAll('p#seconds');
     const h2 = document.querySelectorAll('h2');
-    
+
     setInterval(function() {
+            
+            for (let i = 0; i < response.length; i++) {
+                const hey = calcDate(response[i].datac);   
+                h2[i].innerHTML = response[i].titolo;
+                days[i].innerHTML =  hey.nGiorni;
+                hours[i].innerHTML = hey.nOre;
+                minutes[i].innerHTML = hey.nMinuti;
+                seconds[i].innerHTML = hey.nSecondi;
+            }
     
-        for (let i = 0; i < countdowns.length; i++) {
-            const hey = calcDate(countdowns[i].date);   
-            h2[i].innerHTML = countdowns[i].title;
-            days[i].innerHTML =  hey.nGiorni;
-            hours[i].innerHTML = hey.nOre;
-            minutes[i].innerHTML = hey.nMinuti;
-            seconds[i].innerHTML = hey.nSecondi;
-        }
+        }, 1000);
     
-    }, 1000);
-});
+}
+
+display();
+
+// fetch("https://countdown.pockethost.io/api/collections/countdowns/records?sort=date")
+// .then((response) => response.json())
+// .then((json) => {
+
+//     json.items.push(json.items[0])
+//     json.items[0] = {
+//         "title": "Giovedi",
+//         "date": getNextThursday()
+//     }
+//     const countdowns = json.items;
+
+//     for (let i = 0; i < countdowns.length; i++) {
+//         span.innerHTML += card;
+//     }
+    
+//     const days = document.querySelectorAll('p#days');
+//     const hours = document.querySelectorAll('p#hours');
+//     const minutes = document.querySelectorAll('p#minutes');
+//     const seconds = document.querySelectorAll('p#seconds');
+//     const h2 = document.querySelectorAll('h2');
+    
+//     setInterval(function() {
+    
+//         for (let i = 0; i < countdowns.length; i++) {
+//             const hey = calcDate(countdowns[i].date);   
+//             h2[i].innerHTML = countdowns[i].title;
+//             days[i].innerHTML =  hey.nGiorni;
+//             hours[i].innerHTML = hey.nOre;
+//             minutes[i].innerHTML = hey.nMinuti;
+//             seconds[i].innerHTML = hey.nSecondi;
+//         }
+    
+//     }, 1000);
+// });
 
 
 
