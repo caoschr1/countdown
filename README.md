@@ -13,6 +13,7 @@ You can build yours using their platform or readapt the code for your personal u
 ## Roadmap
 
 In the future this website probably is going to change and becoming a platform opensource. I'm going to develop it soon. Stay tuned!
+Maybe not that soon... 
 
 ## Contributors
 
